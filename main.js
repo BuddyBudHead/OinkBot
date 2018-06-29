@@ -7,6 +7,7 @@ DiscordClient.login(config.token);
 
 DiscordClient.on('ready', function(){
     console.log(DiscordClient.user.username + ": Gestartet.");
+    DiscordClient.user.setActivity("with dicks.");
 });
 
 DiscordClient.on('message', function(message){
@@ -17,7 +18,7 @@ DiscordClient.on('message', function(message){
         author  = message.member,
         channel = message.channel,
         guild   = message.guild
-        DiscordClient.user.setActivity("with dicks."); 
+ 
         if(author.id != DiscordClient.user.id && content.startsWith(config.prefix)){
             console.log("oink");
             var currenTime = getCurrentTime();
