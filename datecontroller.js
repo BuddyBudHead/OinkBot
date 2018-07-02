@@ -23,7 +23,7 @@ methods.getCountdownDate = function(){
         date.setDate(date.getDate() + 2 + (7 - date.getDay()) % 7);
     }
     //every other day
-    else {date.setDate(date.getDate() + (2 + (7 - date.getDay()) % 7));}
+    else {date.setDate(date.getDate() + (2 + 7 - date.getDay()) % 7);}
     var day = date.getUTCDate();
     var month = date.getUTCMonth()+1;
     var year = date.getUTCFullYear();
