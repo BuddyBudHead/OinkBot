@@ -10,7 +10,9 @@ DiscordClient.login(config.token);
 var commands = {
         'flo'      : 'flo', 
         'flo-help' : 'flo-help',
-        'oink'     : 'oink'
+        'oink'     : 'oink',
+        'emoji'    : 'emoji',
+        'hmm'      : 'hmm'
     };
 
 DiscordClient.on('ready', function(){
@@ -26,8 +28,10 @@ DiscordClient.on('message', function(message){
         author       = message.member,
         channel      = message.channel,
         guild        = message.guild,
-        voiceChannel = message.member.voiceChannel
- 
+        voiceChannel = author.voiceChannel
+        
+    console.log(voiceChannel);
+
         // handle the countdown
         if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['flo'])){
 
@@ -39,22 +43,22 @@ DiscordClient.on('message', function(message){
             console.log("n. Dienstag: " + countdownDate);
             console.log("Diffenzenz-TS: " + differenceTime);
 
-            generateTimerOutput(channel, differenceTime);
+            datecontroller.data.generateTimerOutput(channel, differenceTime);
 
         }
 
         // handle the oink sound
         if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['oink'])){
 
-            const permissions = voiceChannel.permissionsFor(message.client.user);
+           if (!voiceChannel) return channel.send('Du musst schon im Call sein, um dir das Oinken zu gönnen.');
 
-           if (!voiceChannel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
+           const permissions = voiceChannel.permissionsFor(message.client.user);
 
            if (!permissions.has('CONNECT')) {
-               return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
+               return channel.send('Ich darf mich nicht zum Voicechannel verbinden :c');
            }
            if (!permissions.has('SPEAK')) {
-               return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
+               return channel.send('Ich habe nicht die Erlaubis zu sprechen :c');
             }
 
             voiceChannel.join().then(connection =>{
@@ -65,19 +69,21 @@ DiscordClient.on('message', function(message){
                 });
             }).catch(err => console.log(err));            
         }
+
+        if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['emoji'])){
+        
+            message.channel.send("<:eggblow:475692753200611352>");
+
+
+        }
+
+        if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['hmm'])){
+        
+            message.channel.send("<:hmm:475702364960194570>");
+
+
+        }
 });
 
-/**
- * Calculate the time to go and send it to channel
- * @param {*} timeDifference 
- */
-function generateTimerOutput(channel ,timeDifference){
-    var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    channel.send("Es dauert noch " + days +" Tage " + hours + " Stunden " + minutes + " Minuten und " + seconds + " Sekunden bis zum nächsten Schweinegeräusch :3")
-    .catch(console.error); // add error handling here
-}
 

@@ -1,16 +1,16 @@
 var methods = {};
 
 /**
- * Gets the current time
- */
+  * Gets the current time
+  */
 methods.getCurrentTime = function(){
     return new Date().getTime();
  
  }
 
  /**
- * Gets the next Tuesday 7pm
- */
+  * Gets the next Tuesday 7pm
+  */
 methods.getCountdownDate = function(){
     var date = new Date();
     console.log(date.getDay());
@@ -41,6 +41,20 @@ methods.getCountdownDate = function(){
     
     //The next Tuesday 07.00pm
     return nexTuesdayTimestamp;
+}
+
+/**
+ * Calculate the time to go and send it to channel
+ * @param {*} timeDifference 
+ */
+methods.generateTimerOutput = function(channel ,timeDifference){
+   var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+   var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+   var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+   var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+   channel.send("Es dauert noch " + days +" Tage " + hours + " Stunden " + minutes + " Minuten und " + seconds + " Sekunden bis zum nächsten Schweinegeräusch :3")
+   .catch(console.error); // add error handling here
 }
 
 exports.data = methods;
