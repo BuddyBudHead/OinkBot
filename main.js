@@ -8,16 +8,17 @@ var DiscordClient = new Discord.Client();
 DiscordClient.login(config.token);
 
 var commands = {
-        'flo'      : 'flo', 
-        'flo-help' : 'flo-help',
-        'oink'     : 'oink',
-        'emoji'    : 'emoji',
-        'hmm'      : 'hmm'
+        'cmd'       : 'cmd', 
+        'flo'       : 'flo', 
+        'flo-help'  : 'flo-help',
+        'oink'      : 'oink',
+        'dick'      : 'dick',
+        'hmm'       : 'hmm'
     };
 
 DiscordClient.on('ready', function(){
     console.log(DiscordClient.user.username + ": Gestartet.");
-    DiscordClient.user.setActivity("with dicks.");
+    DiscordClient.user.setActivity("type .cmd for command list");
 });
 
 DiscordClient.on('message', function(message){
@@ -33,38 +34,27 @@ DiscordClient.on('message', function(message){
     console.log(voiceChannel);
 
         // handle the countdown
-        if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['flo'])){
+        if(author.id != DiscordClient.user.id ){
 
-            var currenTime = datecontroller.data.getCurrentTime();
-            var countdownDate = datecontroller.data.getCountdownDate();
-            var differenceTime = countdownDate - currenTime;
+            switch(content.startsWith(content)) {
 
-            console.log("jetzt: " + currenTime);
-            console.log("n. Dienstag: " + countdownDate);
-            console.log("Diffenzenz-TS: " + differenceTime);
+                case content.startsWith(config.prefix + commands['flo']):
+                    datecontroller.data.triggerCountDown(channel);
+                    break;
 
-            datecontroller.data.generateTimerOutput(channel, differenceTime);
+                case content.startsWith(config.prefix + commands['oink']):
+                    soundcontroller.data.oink(voiceChannel, message);
+                    break;
 
-        }
+                case content.startsWith(config.prefix + commands['dick']):
+                    message.channel.send("<:eggblow:475692753200611352>");
+                    break;
 
-        // handle the oink sound
-        if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['oink'])){
-            soundcontroller.data.oink(voiceChannel, message);            
-        }
-
-        if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['emoji'])){
-        
-            message.channel.send("<:eggblow:475692753200611352>");
-
-
-        }
-
-        if(author.id != DiscordClient.user.id && content.startsWith(config.prefix + commands['hmm'])){
-        
-            message.channel.send("<:hmm:475702364960194570>");
-
-
-        }
+                case content.startsWith(config.prefix + commands['hmm']):
+                    message.channel.send("<:hmm:475702364960194570>");
+                    break;              
+            }
+         }
 });
 
 

@@ -1,9 +1,24 @@
 var methods = {};
 
+
+methods.triggerCountDown = function(channel){
+    var currenTime = getCurrentTime();
+    var countdownDate = getCountdownDate();
+    var differenceTime = countdownDate - currenTime;
+
+    console.log("jetzt: " + currenTime);
+    console.log("n. Dienstag: " + countdownDate);
+    console.log("Diffenzenz-TS: " + differenceTime);
+
+    generateTimerOutput(channel, differenceTime);
+ }
+
+
+
 /**
   * Gets the current time
   */
-methods.getCurrentTime = function(){
+function getCurrentTime(){
     return new Date().getTime();
  
  }
@@ -11,7 +26,7 @@ methods.getCurrentTime = function(){
  /**
   * Gets the next Tuesday 7pm
   */
-methods.getCountdownDate = function(){
+function getCountdownDate(){
     var date = new Date();
     console.log(date.getDay());
     console.log(date.getHours());
@@ -47,7 +62,7 @@ methods.getCountdownDate = function(){
  * Calculate the time to go and send it to channel
  * @param {*} timeDifference 
  */
-methods.generateTimerOutput = function(channel ,timeDifference){
+function generateTimerOutput(channel ,timeDifference){
    var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
    var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
    var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
