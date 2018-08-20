@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const filesystem = require('fs');
 const datecontroller = require('./datecontroller.js');
 const soundcontroller = require('./soundcontroller.js')
+const commandcontroller = require('./commandcontroller.js')
+
 const config = JSON.parse(filesystem.readFileSync('config.json', 'utf8'));
 
 var DiscordClient = new Discord.Client();
@@ -37,6 +39,10 @@ DiscordClient.on('message', function(message){
         if(author.id != DiscordClient.user.id ){
 
             switch(content.startsWith(content)) {
+
+                case content.startsWith(config.prefix + commands['cmd']):
+                    commandcontroller.data.showCommands(channel);
+                    break;
 
                 case content.startsWith(config.prefix + commands['flo']):
                     datecontroller.data.triggerCountDown(channel);

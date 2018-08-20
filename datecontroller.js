@@ -1,6 +1,8 @@
 var methods = {};
 
-
+/**
+ * Show the countdown
+ */
 methods.triggerCountDown = function(channel){
     var currenTime = getCurrentTime();
     var countdownDate = getCountdownDate();
