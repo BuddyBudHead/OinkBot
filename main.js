@@ -35,7 +35,7 @@ DiscordClient.on('message', function(message){
 
     console.log(voiceChannel);
 
-        // handle the countdown
+        // handle the functions
         if(author.id != DiscordClient.user.id ){
 
             switch(content.startsWith(content)) {
